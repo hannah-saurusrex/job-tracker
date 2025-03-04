@@ -22,7 +22,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 	//check if user is logged in, fetch from api/auth/me
 	const checkAuth = async () => {
 		try {
-			const res = await fetch("/src/app/api/auth/me.ts");
+			const res = await fetch("/api/auth/me");
 			if (res.ok) {
 				const data = await res.json();
 				setUser(data.user);
@@ -37,7 +37,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
 	// login function
 	const login = async (email: string, password: string) => {
-		const res = await fetch("/src/app/api/auth/login.ts", {
+		const res = await fetch("/api/auth/login", {
 			method: "POST",
 			body: JSON.stringify({ email, password }),
 			headers: { "Content-Type": "application/json" },
@@ -52,7 +52,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
 	// logout function
 	const logout = async () => {
-		await fetch("/src/app/api/auth/logout.ts", { method: "POST" });
+		await fetch("/api/auth/logout", { method: "POST" });
 		setUser(null);
 	};
 

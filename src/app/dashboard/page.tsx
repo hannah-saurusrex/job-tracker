@@ -3,6 +3,7 @@
 import { useAuth } from '../../context/AuthContext';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import NewJobForm from '@/components/NewJobForm';
 
 interface Job {
 	id: string,
@@ -75,8 +76,17 @@ export default function DashboardPage() {
 	return (
 		<div className="p-6">
 			<h1 className="text-2xl font-bold">Welcome, {user?.email}</h1>
-			<button onClick={handleLogout} className="mt-4 bg-red-500 text-white px-4 py-2">Logout</button>
+			<button 
+				onClick={handleLogout} 
+				className="mt-4 bg-red-500 text-white px-4 py-2"
+			>
+				Logout
+			</button>
+			
 			<h2 className="mt-6 text-xl font-semibold">My Job Applications</h2>
+
+			<NewJobForm onJobAdded={fetchJobs} />
+			
 			<div className="mt-4 space-y-4">
 				{jobs.map((job) => (
 					<div key={job.id} className="p-4 border rounded shadow">

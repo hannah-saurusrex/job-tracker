@@ -29,6 +29,7 @@ model Job {
   title      String
   status     String  @default("applied")
   date       DateTime @default(now())
+  notes      String?
   user       User    @relation(fields: [userId], references: [id])
   userId     String
 }

@@ -24,19 +24,17 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
     }
 
-    const token = jwt.sign({ userId: user.id, email: user.email }, SECRET, {
-      expiresIn: "1d",
-    });
+    const token = jwt.sign({ userId: user.id, email: user.email }, SECRET, { expiresIn: "1d", });
 
     const response = NextResponse.json({ message: "Login successful" });
     response.cookies.set("token", token, {
-      httpOnly: true,
+      httpOnly: false,
       secure: process.env.NODE_ENV === "production",
       maxAge: 24 * 60 * 60,
       path: "/",
     });
 
-    return response;
+    return NextResponse.json({ message: "login successful", user: { email: user.email }, token, })
   } catch (error) {
     console.error("Login error:", error);
     return NextResponse.json({ error: "Failed to login" }, { status: 500 });

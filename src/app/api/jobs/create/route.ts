@@ -7,9 +7,15 @@ const SECRET = process.env.JWT_SECRET!;
 
 export async function POST(req: NextRequest) {
 	try {
-		const token = req.cookies.get("token")?.value;
-		if (!token) return NextResponse.json({ error: "unauthorized" }, {status: 401});
+		const authHeader = req.headers.get("authorization");
+		const token = authHeader?.split(" ")[1];
 
+		if (!token) {
+			return NextResponse.json({ error: "Unauthorized - missing token" }, { status: 401 });
+		}
+		
+		console.log('received token', token);
+		
 		const decoded = jwt.verify(token, SECRET) as { userId: string };
 		const { company, title, status, date, notes } = await req.json();
 
